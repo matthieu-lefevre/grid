@@ -1,18 +1,28 @@
-UserAutoCompleteComponent = {
-    users: [
-        {value:'virginie.danon', uid:'virginie.danon', firstName:'Virginie', lastName:'DANON', teams:[{name:'team1',deprecated:false}], trainee:false, roleName:'SALES', roleLabel:'Sales'},
-        {value:'marie.clavier', uid:'marie.clavier', firstName:'Marie', lastName:'CLAVIER', teams:[{name:'team1',deprecated:false}], trainee:false, roleName:'SALES', roleLabel:'Sales'},
-        {value:'thomas.roux', uid:'thomas.roux', firstName:'Thomas', lastName:'ROUX', teams:[{name:'team2',deprecated:false}], trainee:false, roleName:'PRICER', roleLabel:'Pricer'},
-        {value:'pauline.granier', uid:'pauline.granier', firstName:'Pauline', lastName:'GRANIER', teams:[{name:'team1',deprecated:false},{name:'team3',deprecated:false}], trainee:false, roleName:'SALES', roleLabel:'Sales'},
-        {value:'pauline.granier', uid:'pauline.granier', firstName:'Pauline', lastName:'GRANIER', teams:[{name:'team3',deprecated:false}], trainee:true, roleName:'EMI', roleLabel:'Emission'}
-    ]
-};
+UserAutoCompleteComponent = {};
 
 UserAutoCompleteComponent.init = function(autoCompleteContainer) {
+    var xhr;
     autoCompleteContainer.autocomplete({
         delay: 0,
         minLength: 2,
-        source: UserAutoCompleteComponent.users,
+        source: function( request, response ) {
+            var regex = new RegExp(request.term, 'i');
+            if(xhr){
+                xhr.abort();
+            }
+            xhr = $.ajax({
+                url: "/grid/data/user.json",
+                dataType: "json",
+                cache: false,
+                success: function(data) {
+                    response($.map(data.users, function(item) {
+                        if(regex.test(item.uid)){
+                            return item;
+                        }
+                    }));
+                }
+            });
+        },
         select: function(e, ui) {
             UserAutoCompleteComponent.onSelectCallback(ui.item);
             return false;
