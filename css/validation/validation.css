@@ -18,6 +18,26 @@
     font-size: 12px;
 }
 
+#errors_container {
+    margin: 10px 0 0 0;
+}
+#errors_container p {
+    margin: 0;
+    padding: 0;
+    color: red;
+    font-size: 12px;
+}
+
+#messages_container {
+    margin: 10px 0 0 0;
+}
+#messages_container p {
+    margin: 0;
+    padding: 0;
+    color: blue;
+    font-size: 12px;
+}
+
 .validation {
     width: 550px;
     margin: 30px 0 0 0;
@@ -52,6 +72,22 @@
 }
 .participant_name {
     display: inline-block;
-    width: 250px;
+    width: 200px;
     margin: 0 0 0 15px;
+}
+.participant_team {
+    display: inline-block;
+    width: 250px;
+}
+.participant_trainee {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url('../../img/student.png');
+}
+.participant_delete {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url('../../img/trash.png');
 }

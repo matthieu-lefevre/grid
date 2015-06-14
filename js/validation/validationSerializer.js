@@ -34,18 +34,18 @@ ValidationSerializer.unserialize = function(json) {
 };
 
 ValidationSerializer.toGrid = function(validation) {
-    var table = new superGrid({name:'div',clazz:'validation'});
+    var table = new superGrid({tag:'div',clazz:'validation'});
 
     validation.roles.sort(function(r1, r2) {
         return validation.rolesOrder[r1.name] - validation.rolesOrder[r2.name];
     });
     $.each(validation.roles, function(rIndex, role) {
-        var roleGrid = new grid({name:'div',clazz:'validation_role'});
+        var roleGrid = new grid({tag:'div',clazz:'validation_role'});
         roleGrid.order = rIndex;
 
         var lineIndex = 1;
-        var headerElement = new gridElement({name:'div',clazz:'role_header'}, lineIndex);
-        var headerElementLabel = new gridElementItem({name:'span',clazz:'role_label'}, 1, role.label);
+        var headerElement = new gridElement({tag:'div',clazz:'role_header'}, lineIndex);
+        var headerElementLabel = new gridElementItem({tag:'span',clazz:'role_label'}, 1, role.label);
         headerElement.addItem(headerElementLabel);
         roleGrid.addElement(headerElement);
 
@@ -58,9 +58,23 @@ ValidationSerializer.toGrid = function(validation) {
             return 0;
         });
         $.each(role.participants, function(pIndex, participant) {
-            var participantElement = new gridElement({name:'div',clazz:'validation_participant'}, lineIndex++);
-            var participantElementName = new gridElementItem({name:'span',clazz:'participant_name'}, 1, participant.longName);
+            var participantElement = new gridElement({tag:'div',clazz:'validation_participant'}, lineIndex++);
+
+            if(participant.trainee) {
+                var participantElementTrainee = new gridElementItem({tag:'span',clazz:'participant_trainee'}, 1, null);
+                participantElement.addItem(participantElementTrainee);
+            }
+
+            var participantElementName = new gridElementItem({tag:'span',clazz:'participant_name'}, 2, participant.longName);
             participantElement.addItem(participantElementName);
+
+            var participantElementTeam = new gridElementItem({tag:'span',clazz:'participant_team'}, 3, participant.teams[0].name);
+            participantElement.addItem(participantElementTeam);
+
+            if(!participant.author) {
+                var participantElementDelete = new gridElementItem({tag: 'span', clazz: 'participant_delete'}, 4, null);
+                participantElement.addItem(participantElementDelete);
+            }
 
             roleGrid.addElement(participantElement);
         });

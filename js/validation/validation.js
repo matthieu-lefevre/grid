@@ -20,6 +20,7 @@ function validation() {
 	this.initMessages = function() {
 		// PRICER not mandatory message
 		if(!inArray(this.mandatoryRoles, 'PRICER')) {
+			console.log('pricer not mandatory');
 			this.messages.push('Pricer is NOT mandatory');
 		}
 	};

@@ -1,5 +1,5 @@
-function superGrid(tag) {
-	this.tag = tag;
+function superGrid(markup) {
+	this.markup = markup;
 	this.grids = [];
 
 	this.addGrid = function(grid) {
@@ -7,7 +7,7 @@ function superGrid(tag) {
 	};
 
 	this.generate = function() {
-		var superGrid = generateHtmlTag(tag);
+		var superGrid = generateHtmlMarkup(this.markup);
 		sortByOrder(this.grids);
 		$.each(this.grids, function(index, grid) {
 			superGrid.append(grid.generate());
@@ -16,8 +16,8 @@ function superGrid(tag) {
 	};
 };
 
-function grid(tag) {
-	this.tag = tag;
+function grid(markup) {
+	this.markup = markup;
 	this.order = -1;
 	this.elements = [];
 
@@ -26,7 +26,7 @@ function grid(tag) {
 	};
 
 	this.generate = function() {
-		var grid = generateHtmlTag(this.tag);
+		var grid = generateHtmlMarkup(this.markup);
 		sortByOrder(this.elements);
 		$.each(this.elements, function(index, element) {
 			grid.append(element.generate());
@@ -35,8 +35,8 @@ function grid(tag) {
 	};
 };
 
-function gridElement(tag, order) {
-	this.tag = tag;
+function gridElement(markup, order) {
+	this.markup = markup;
 	this.order = order;
 	this.items = [];
 
@@ -45,7 +45,7 @@ function gridElement(tag, order) {
 	};
 
 	this.generate = function() {
-		var element = generateHtmlTag(this.tag);
+		var element = generateHtmlMarkup(this.markup);
 		sortByOrder(this.items);
 		$.each(this.items, function(index, item) {
 			element.append(item.generate());
@@ -54,20 +54,20 @@ function gridElement(tag, order) {
 	};
 };
 
-function gridElementItem(tag, order, content) {
-	this.tag = tag;
+function gridElementItem(markup, order, content) {
+	this.markup = markup;
 	this.order = order;
 	this.content = content;
 
 	this.generate = function() {
-		var item = generateHtmlTag(this.tag);
-		item.append(content);
+		var item = generateHtmlMarkup(this.markup);
+		item.append(this.content);
 		return item;
 	};
 };
 
-function tag(name, id, clazz, title) {
-	this.name = name;
+function markup(tag, id, clazz, title) {
+	this.tag = tag;
 	this.id = id;
 	this.clazz = clazz;
 	this.title = title;
@@ -84,17 +84,17 @@ function sortByOrder(arrayToSort) {
 	});
 };
 
-function generateHtmlTag(tag) {
-	var html = '<'+tag.name;
-	if(undefined !== tag.id && null !== tag.id) {
-		html += ' id="'+tag.id+'"';
+function generateHtmlMarkup(markup) {
+	var html = '<'+markup.tag;
+	if(undefined !== markup.id && null !== markup.id) {
+		html += ' id="'+markup.id+'"';
 	}
-	if(undefined !== tag.clazz && null !== tag.clazz) {
-		html += ' class="'+tag.clazz+'"';
+	if(undefined !== markup.clazz && null !== markup.clazz) {
+		html += ' class="'+markup.clazz+'"';
 	}
-	if(undefined !== tag.title && null !== tag.title) {
-		html += ' title="'+tag.title+'"';
+	if(undefined !== markup.title && null !== markup.title) {
+		html += ' title="'+markup.title+'"';
 	}
-	html += '></'+tag.name+'>';
+	html += '></'+markup.tag+'>';
 	return $(html);
 };
