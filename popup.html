@@ -1,0 +1,20 @@
+<link rel="stylesheet" media="screen" type="text/css" href="css/validation/validation.css" />
+<div id="autocomplete">
+	<input id="add_user" type="text" placeholder="type user name here" />
+</div>
+
+<div id="messages_container"></div>
+<div id="warnings_container"></div>
+<div id="validation_container"></div>
+<div id="errors_container"></div>
+
+<script type="text/javascript" src="js/utils/userAutoComplete.js"></script>
+<script type="text/javascript" src="js/utils/grid.js"></script>
+<script type="text/javascript" src="js/validation/validation.js" />
+<script type="text/javascript" src="js/validation/validationSerializer.js" />
+<script type="text/javascript" src="js/validation/validationComponent.js" />
+<script type="text/javascript">
+	$(document).ready(function() {
+		ValidationComponent.init({});
+	});
+</script>

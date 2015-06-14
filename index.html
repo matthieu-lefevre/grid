@@ -1,0 +1,45 @@
+<html>
+	<head>
+		<title>Grid</title>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/smoothness/jquery-ui.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
+	</head>
+	
+	<body>
+		<a id="link" href="#">Link</a>
+		<div id="grid"></div>
+		
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$("#link").bind('click', function(e) {
+					e.preventDefault();
+					$.ajax({
+						url: 'popup.html',
+						type: 'GET',
+						datatype: 'html',
+						success: function(content) {
+							openPopup(content);
+						}
+					});
+				});
+
+				function openPopup(content) {
+					var modal = $('<div id="popup">'+content+'</div>');
+					$('body').append(modal);
+					$("#popup").dialog({
+						modal: true,
+						width: 600,
+						height: 500,
+						title: 'Validation table creation',
+						close: function(event, ui) {
+							$(this).dialog('destroy').remove();
+						}
+					});
+				};
+			});
+		</script>
+		
+	</body>
+
+</html>
